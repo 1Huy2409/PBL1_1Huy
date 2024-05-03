@@ -76,6 +76,7 @@ int test(char fileName[]) { //truyen ten ham
     for (j = 2; j<=3;j++) {
         cnam[k++] = nam[j];
     }
+    cnam[k] = '\0';
     if (strcmp(cnam,chuoi1)==0) {
         return 1;
     }
@@ -417,9 +418,15 @@ void scanlist()
 }
 void nameFile(char fileName[])
 {
-    fgets(fileName, 100, stdin);
-    fileName[strlen(fileName) - 1] = '\0';
-        
+    do {
+        fgets(fileName, 100, stdin);
+        fileName[strlen(fileName) - 1] = '\0';
+        if (test(fileName)==0) {
+            printf("Lop nhap vao khong hop le!Moi ban nhap lai: ");
+        }
+    }
+    while (test(fileName)==0);
+
 }
 void readFromFile()
 {
