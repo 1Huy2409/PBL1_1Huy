@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 #include <time.h>
 #define N 100
 typedef struct
 {
     int ngay, thang, nam;
-} date; //ngày tháng năm sinh của sinh viên 
+} date; //ngaÌy thaìng nãm sinh cuÒa sinh viên 
 typedef struct
 {
     char home[5], street[30], city[30];
@@ -144,11 +146,12 @@ char *upper(char s[])
     }
     return s;
 }
-// ham them sinh vien nhap bang tay
+
 void addSv(sinhvien *sv)
 {
     sinhvien Sv;
     int day, month, year;
+    char ngayThangNam[20];
     printf("Moi ban nhap ho dem: ");
     fgets(Sv.middle, 30, stdin);
     standard(Sv.middle);
@@ -156,8 +159,29 @@ void addSv(sinhvien *sv)
     fgets(Sv.name, 30, stdin);
     standard(Sv.name);
     printf("Moi ban nhap ngay thang nam sinh: ");
-    scanf("%d%d%d", &day, &month, &year);
-    getchar();
+//    scanf("%d%d%d", &day, &month, &year);
+	do {
+		fgets(ngayThangNam, sizeof(ngayThangNam), stdin);
+   // nhapNgayThangNamSinh(ngayThangNam);
+    
+    char *token = strtok(ngayThangNam, "/-.");
+
+    day = atoi(token);
+    token = strtok(NULL, "/-.");
+
+    month = atoi(token);
+    token = strtok(NULL, "/-.");
+ 
+    year = atoi(token);
+    if((day > 31 && month == 1) || (day > 29 && month == 2) || (day > 31 && month == 3) || (day > 30 && month == 4) || 	(day > 31 && month == 5) || (day > 30 && month == 6) || (day > 31 && month == 7) || (day > 31 && month == 8) || (day > 30 && month == 9) || (day > 31 && month == 10) || (day > 30 && month == 11) || (day > 31 && month == 12) || (month > 12)){
+    		printf("Ngay sinh khong hop le! Moi ban nhap lai ");
+		} 
+	} 
+	while  ((day > 31 && month == 1) || (day > 29 && month == 2) || (day > 31 && month == 3) || (day > 30 && month == 4) || 	(day > 31 && month == 5) || (day > 30 && month == 6) || (day > 31 && month == 7) || (day > 31 && month == 8) || (day > 30 && month == 9) || (day > 31 && month == 10) || (day > 30 && month == 11) || (day > 31 && month == 12) || (month > 12));
+	
+
+    printf("Ban da nhap ngay sinh: %d/%d/%d\n", day, month, year);
+   // getchar();
     Sv.birth.ngay = day;
     Sv.birth.thang = month;
     Sv.birth.nam = year;
@@ -312,6 +336,10 @@ int inputMsv()
         printf("Khong tim thay sinh vien ban muon!!!\n");
         printf("Moi ban nhap lai: ");
         scanf("%lld", &id);
+        getchar();
+        if (id==0) break;
+        delSv = id;
+        tmp = binarySearchMsv(ID,0,sumSv,id);
         count--;
     }
     return tmp;
@@ -641,8 +669,9 @@ void select3()
     {
         printf("Moi ban nhap lai lua chon!\n");
         printf("Nhap lua chon: ");
+        --limit;
         scanf("%d", &option);
-        limit--;
+        getchar();
     }
     switch (option)
     {
@@ -937,5 +966,5 @@ void menu()
         default:
             printf("Nhap lai lua chon cua ban!!!\n");
         }
-    } while (chooseMenu);
+    } while (chooseMenu!=8);
 }
