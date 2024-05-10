@@ -208,11 +208,11 @@ void swap(sinhvien *sv1, sinhvien *sv2)
 }
 void sortSv(sinhvien list[], int l, int r)
 {
-    int i = l, j = r;
+    int i = 1, j = r;
     char pivot_name[30], pivot_middle[30];
-    strcpy(pivot_name, list[(l + r) / 2].name);
+    strcpy(pivot_name, list[(1 + r) / 2].name);
     strcpy(pivot_name, upper(pivot_name));
-    strcpy(pivot_middle, list[(l + r) / 2].middle);
+    strcpy(pivot_middle, list[(1 + r) / 2].middle);
     strcpy(pivot_middle, upper(pivot_middle));
     do
     {
@@ -248,8 +248,8 @@ void sortSv(sinhvien list[], int l, int r)
             j--;
         }
     } while (i <= j);
-    if (j > l)
-        sortSv(list, l, j);
+    if (j > 1)
+        sortSv(list, 1, j);
     if (i < r)
         sortSv(list, i, r);
 }
