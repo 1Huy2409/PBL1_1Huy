@@ -208,11 +208,11 @@ void swap(sinhvien *sv1, sinhvien *sv2)
 }
 void sortSv(sinhvien list[], int l, int r)
 {
-    int i = 1, j = r;
+    int i = l, j = r;
     char pivot_name[30], pivot_middle[30];
-    strcpy(pivot_name, list[(1 + r) / 2].name);
+    strcpy(pivot_name, list[(l + r) / 2].name);
     strcpy(pivot_name, upper(pivot_name));
-    strcpy(pivot_middle, list[(1 + r) / 2].middle);
+    strcpy(pivot_middle, list[(l + r) / 2].middle);
     strcpy(pivot_middle, upper(pivot_middle));
     do
     {
@@ -248,8 +248,8 @@ void sortSv(sinhvien list[], int l, int r)
             j--;
         }
     } while (i <= j);
-    if (j > 1)
-        sortSv(list, 1, j);
+    if (j > l)
+        sortSv(list, l, j);
     if (i < r)
         sortSv(list, i, r);
 }
@@ -721,6 +721,8 @@ void select3()
         printf("Da xoa sinh vien co id: %lld\n", delSv);
         writeToFile();
         formatHead();
+        //sap xep lai danh sach sinh vien roi
+        sortSv(list, 0, sumSv - 1);
         scanlist();
         break;
     case 2:
