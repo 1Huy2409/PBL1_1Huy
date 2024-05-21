@@ -159,10 +159,8 @@ void addSv(sinhvien *sv)
     fgets(Sv.name, 30, stdin);
     standard(Sv.name);
     printf("Moi ban nhap ngay thang nam sinh: ");
-//    scanf("%d%d%d", &day, &month, &year);
 	do {
 		fgets(ngayThangNam, sizeof(ngayThangNam), stdin);
-   // nhapNgayThangNamSinh(ngayThangNam);
     
     char *token = strtok(ngayThangNam, "/-.");
 
@@ -177,7 +175,7 @@ void addSv(sinhvien *sv)
     		printf("Ngay sinh khong hop le! Moi ban nhap lai ");
 		} 
 	} 
-	while  ((day > 31 && month == 1) || (day > 29 && month == 2) || (day > 31 && month == 3) || (day > 30 && month == 4) || 	(day > 31 && month == 5) || (day > 30 && month == 6) || (day > 31 && month == 7) || (day > 31 && month == 8) || (day > 30 && month == 9) || (day > 31 && month == 10) || (day > 30 && month == 11) || (day > 31 && month == 12) || (month > 12));
+	while  ((day > 31 && month == 1) || (day > 29 && month == 2) || (day > 31 && month == 3) || (day > 30 && month == 4) || (day > 31 && month == 5) || (day > 30 && month == 6) || (day > 31 && month == 7) || (day > 31 && month == 8) || (day > 30 && month == 9) || (day > 31 && month == 10) || (day > 30 && month == 11) || (day > 31 && month == 12) || (month > 12));
 	
 
     printf("Ban da nhap ngay sinh: %d/%d/%d\n", day, month, year);
@@ -239,7 +237,7 @@ void sortSv(sinhvien list[], int l, int r)
             if (strcmp(pivot_middle, upper(mSv1)) > 0)
                 i++;
             if (strcmp(pivot_middle, upper(mSv2)) < 0)
-                j--;
+                j--;    
         }
         if (i <= j)
         {
@@ -276,8 +274,7 @@ void deleteAll(char fileName[])
     fwrite(&n, sizeof(n), 1, sv);
     sumSv = 0;
 }
-// ham tim kien sinh vien
-// tim theo ten
+//tim sinh vien theo ten
 int binarySearchName(sinhvien list[], idmail ID[], int left, int right, char Name[])
 {
     int p;
@@ -301,12 +298,13 @@ int binarySearchName(sinhvien list[], idmail ID[], int left, int right, char Nam
     }
     return -1;
 }
+//tim sinh vien theo msv
 int binarySearchMsv(idmail ID[], int left, int right, long long   idsv)
 {
     int p;
     while (left <= right)
     {
-        int p = left + (right - left) / 2;
+        p = left + (right - left) / 2;
         if (ID[p].id == idsv)
         {
             return p;
@@ -362,31 +360,41 @@ void initId()
         }
     }
     chuoi2[j] = '\0';
-    //tach chuoi 3
     char chuoi3[2];
     chuoi3[0] = fileName[strlen(fileName)-1]; 
     chuoi3[1] = '\0';
+    //chuoi 2 la cac ky tu the hien nganh dang hoc
+    char phu[] = ".txt";
+    char chuoiphu[10];
+    strcpy(chuoiphu,chuoi2);
+    strcat(chuoiphu,phu);
+    int k = 0;
+    while (k<strlen(chuoiphu)) {
+        k++;
+    }
+    chuoiphu[k] = '\0';
+    char manganh[3];
+    FILE *f;
+    f = fopen(chuoiphu,"r");
+    if (f==NULL) {
+        printf("Khong tim thay file\n");
+        exit(1);
+    }
+    else {
+        int n; 
+        fscanf(f,"%d",&n);
+        sprintf(manganh,"%d",n);
+        fclose(f);
+    }
+    //chuyen n nay thanh chuoi va noi vao chuoi chinh
     char s[10];
-    char nganh1[10] = "T_DT";
-    char nganh2[10] = "T_NHAT";
-    char nganh3[10] = "KHDL";
-    char nganh4[10] = "DT";
-    char c1[] = "102"; char c[] = "001";
-    char c2[] = "106";
-    //lam voi nganh cong nghe thong tin 
-
-    if (strcmp(chuoi2,nganh1)==0 || strcmp(chuoi2,nganh2)==0 || strcmp(chuoi2,nganh3)==0) {
-        strcat(s,c1); //noi ma nganh vao chuoi ma sinh vien cntt
-    }
-    if (strcmp(chuoi2, nganh4)==0) {
-        //nganh dien tu vien thong
-        strcat(s,c2); //noi ma nganh vao chuoi ma sinh vien dtvt
-    }
+    char c[] = "001";
+    strcat(s,manganh);
     strcat(s,chuoi1); //noi nien khoa vao chuoi
     strcat(s,chuoi3);
     strcat(s,c);
     //T_DT1 den
-    long long num = atol(s);
+    long long num = atoll(s);
     for (i = 0; i < sumSv; i++)
     {
        ID[i].id = num+i;
@@ -539,7 +547,7 @@ void searchNameSv()
     }
     while (location == -1)
     {
-        char tmp[30];
+        char Name[30];
         printf("Khong tim thay sinh vien trong danh sach!\n");
         printf("Ban co muon tiep tuc tim kiem hay khong?\n");
         printf("1.Yes\n");
@@ -551,7 +559,8 @@ void searchNameSv()
         if (choice == 1)
         {
             printf("Moi ban nhap ten can tim kiem: ");
-            nameFile(Name);
+            fgets(Name, 30, stdin);
+            Name[strlen(Name) - 1] = '\0';
             int i;
             int location = binarySearchName(list, ID, 0, sumSv - 1, Name);
             if (location != -1)
@@ -721,8 +730,6 @@ void select3()
         printf("Da xoa sinh vien co id: %lld\n", delSv);
         writeToFile();
         formatHead();
-        //sap xep lai danh sach sinh vien roi
-        sortSv(list, 0, sumSv - 1);
         scanlist();
         break;
     case 2:
