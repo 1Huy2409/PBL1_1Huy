@@ -7,7 +7,7 @@
 typedef struct
 {
     int ngay, thang, nam;
-} date; //ngaÌy thaìng nãm sinh cuÒa sinh viên 
+} date; 
 typedef struct
 {
     char home[5], street[30], city[30];
@@ -16,7 +16,6 @@ typedef struct
 {
     char middle[30], name[30], sex[10];
     int age;
-    // ngay sinh
     date birth;
     address OfSv;
 } sinhvien;
@@ -43,7 +42,7 @@ char l3[] ="KHDL";
 
 void addSv(sinhvien *sv);
 void sortSv(sinhvien list[], int l, int r);                  // su dung thuat toan quicksort
-void deleteMsv(sinhvien list[], idmail ID[], int n, int sv); // khi xoa sinh vien thi can xoa ca ma sinh vien do
+void deleteMsv(sinhvien list[], idmail ID[], int *n, int sv); // khi xoa sinh vien thi can xoa ca ma sinh vien do
 void deleteAll(char fileName[]);
 int binarySearchName(sinhvien list[], idmail msv[], int left, int right, char Name[]);
 int binarySearchMsv(idmail msv[], int left, int right, long long   idsv);
@@ -52,7 +51,7 @@ void initEmail();
 void scanlist();
 int test(char fileName[]);
 void menu();
-void Intro(); //in tro bao cao 
+void Intro(); 
 int main()
 {
     Intro();
@@ -252,14 +251,15 @@ void sortSv(sinhvien list[], int l, int r)
         sortSv(list, i, r);
 }
 // ham xoa sinh vien
-void deleteMsv(sinhvien list[], idmail ID[], int n, int sv)
+void deleteMsv(sinhvien list[], idmail ID[], int *n, int sv)
 {
     int i;
-    for (i = sv; i < n; i++)
+    for (i = sv; i < (*n); i++)
     {
         list[i] = list[i + 1];
         ID[i] = ID[i + 1];
     }
+    (*n)--;
 }
 void deleteAll(char fileName[])
 {
@@ -280,7 +280,7 @@ int binarySearchName(sinhvien list[], idmail ID[], int left, int right, char Nam
     int p;
     while (left <= right)
     {
-        int p = left + (right - left) / 2;
+        p = left + (right - left) / 2;
         char tmp[100];
         strcpy(tmp, list[p].name);
         if (strcmp(upper(tmp), upper(Name)) == 0)
@@ -395,6 +395,7 @@ void initId()
     strcat(s,c);
     //T_DT1 den
     long long num = atoll(s);
+    //chia if else de cap ma cho sinh vien 
     for (i = 0; i < sumSv; i++)
     {
        ID[i].id = num+i;
@@ -689,7 +690,7 @@ void select3()
         if (fileName[0] != '\0')
         {
             int option_1 = choice();
-            if (option_1 == 0)
+            if (option_1 == 3)
                 break;
             switch (option_1)
             {
@@ -713,19 +714,15 @@ void select3()
         scanlist();
         printf("\n");
         printf("Nhap msv can xoa: ");
-        sv = inputMsv();
-        if (sv != -1)
-        {
-            sumSv = sumSv - 1;
-        }
-        else
+        sv = inputMsv(); //sv la index cua sinh vien can xoa trong danh sach lop
+        if (sv == -1)
         {
             printf("Da dung xoa!");
             formatHead();
             scanlist();
             break;
         }
-        deleteMsv(list, ID, sumSv, sv);
+        deleteMsv(list, ID, &sumSv, sv);
         writeToFile();
         printf("Da xoa sinh vien co id: %lld\n", delSv);
         writeToFile();
