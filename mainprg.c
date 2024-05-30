@@ -7,7 +7,7 @@
 typedef struct
 {
     int ngay, thang, nam;
-} date; 
+} date;
 typedef struct
 {
     char home[5], street[30], city[30];
@@ -21,7 +21,7 @@ typedef struct
 } sinhvien;
 typedef struct
 {
-    long long  id;
+    long long id;
     char email[30];
 } idmail;
 // khai bao 2 mang song song: 1 mang luu thong tin cb cua sinh vien con 1 mang de luu ma sinh vien va email cua sinh vien
@@ -36,28 +36,25 @@ char fileName[100];    // ten file txt dua tu ngoai vao code
 char confirmDelAll[2]; // xac nhan chac chan xoa
 int sv;                // id cua sinh vien can tim
 
-char l1[] ="T_DT";
-char l2[] ="T_NHAT";
-char l3[] ="KHDL";
-
 void addSv(sinhvien *sv);
-void sortSv(sinhvien list[], int l, int r);                  // su dung thuat toan quicksort
-void deleteMsv(sinhvien list[], idmail ID[], int *n, int sv); // khi xoa sinh vien thi can xoa ca ma sinh vien do
+void sortSv(sinhvien list[], int l, int r);                   
+void deleteMsv(sinhvien list[], idmail ID[], int *n, int sv); 
 void deleteAll(char fileName[]);
 int binarySearchName(sinhvien list[], idmail msv[], int left, int right, char Name[]);
-int binarySearchMsv(idmail msv[], int left, int right, long long   idsv);
+int binarySearchMsv(idmail msv[], int left, int right, long long idsv);
 void initId();
 void initEmail();
 void scanlist();
 int test(char fileName[]);
 void menu();
-void Intro(); 
+void Intro();
 int main()
 {
     Intro();
     menu();
 }
-int test(char fileName[]) { //truyen ten ham
+int test(char fileName[])
+{ // truyen ten ham
     time_t rawtime;
     struct tm *timeinfo;
     int year;
@@ -66,22 +63,26 @@ int test(char fileName[]) { //truyen ten ham
     year = timeinfo->tm_year + 1900;
     char nam[10];
     sprintf(nam, "%d", year);
-    char chuoi1[3]; //lay nien khoa cua nam hoc sinh vien 
+    char chuoi1[3]; // lay nien khoa cua nam hoc sinh vien
     int i;
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < 2; i++)
+    {
         chuoi1[i] = fileName[i];
-    } //nien khoa lay 2 ky tu dau cua chuoi me 
+    } // nien khoa lay 2 ky tu dau cua chuoi me
     chuoi1[i] = '\0';
     char cnam[3];
-    int j,k= 0;
-    for (j = 2; j<=3;j++) {
+    int j, k = 0;
+    for (j = 2; j <= 3; j++)
+    {
         cnam[k++] = nam[j];
     }
     cnam[k] = '\0';
-    if (strcmp(cnam,chuoi1)==0) {
+    if (strcmp(cnam, chuoi1) == 0)
+    {
         return 1;
     }
-    else return 0;
+    else
+        return 0;
 }
 // ham uppercase
 char to_upper(char s)
@@ -131,7 +132,7 @@ void standard(char s[])
             s[i + 1] = to_lower(s[i + 1]);
         }
     }
-    s[strlen(s) - 1] = '\0'; // null???
+    s[strlen(s) - 1] = '\0'; 
 }
 char *upper(char s[])
 {
@@ -158,27 +159,27 @@ void addSv(sinhvien *sv)
     fgets(Sv.name, 30, stdin);
     standard(Sv.name);
     printf("Moi ban nhap ngay thang nam sinh: ");
-	do {
-		fgets(ngayThangNam, sizeof(ngayThangNam), stdin);
-    
-    char *token = strtok(ngayThangNam, "/-.");
+    do
+    {
+        fgets(ngayThangNam, sizeof(ngayThangNam), stdin);
 
-    day = atoi(token);
-    token = strtok(NULL, "/-.");
+        char *token = strtok(ngayThangNam, "/-.");
 
-    month = atoi(token);
-    token = strtok(NULL, "/-.");
- 
-    year = atoi(token);
-    if((day > 31 && month == 1) || (day > 29 && month == 2) || (day > 31 && month == 3) || (day > 30 && month == 4) || 	(day > 31 && month == 5) || (day > 30 && month == 6) || (day > 31 && month == 7) || (day > 31 && month == 8) || (day > 30 && month == 9) || (day > 31 && month == 10) || (day > 30 && month == 11) || (day > 31 && month == 12) || (month > 12)){
-    		printf("Ngay sinh khong hop le! Moi ban nhap lai ");
-		} 
-	} 
-	while  ((day > 31 && month == 1) || (day > 29 && month == 2) || (day > 31 && month == 3) || (day > 30 && month == 4) || (day > 31 && month == 5) || (day > 30 && month == 6) || (day > 31 && month == 7) || (day > 31 && month == 8) || (day > 30 && month == 9) || (day > 31 && month == 10) || (day > 30 && month == 11) || (day > 31 && month == 12) || (month > 12));
-	
+        day = atoi(token);
+        token = strtok(NULL, "/-.");
+
+        month = atoi(token);
+        token = strtok(NULL, "/-.");
+
+        year = atoi(token);
+        if ((day > 31 && month == 1) || (day > 29 && month == 2) || (day > 31 && month == 3) || (day > 30 && month == 4) || (day > 31 && month == 5) || (day > 30 && month == 6) || (day > 31 && month == 7) || (day > 31 && month == 8) || (day > 30 && month == 9) || (day > 31 && month == 10) || (day > 30 && month == 11) || (day > 31 && month == 12) || (month > 12))
+        {
+            printf("Ngay sinh khong hop le! Moi ban nhap lai ");
+        }
+    } while ((day > 31 && month == 1) || (day > 29 && month == 2) || (day > 31 && month == 3) || (day > 30 && month == 4) || (day > 31 && month == 5) || (day > 30 && month == 6) || (day > 31 && month == 7) || (day > 31 && month == 8) || (day > 30 && month == 9) || (day > 31 && month == 10) || (day > 30 && month == 11) || (day > 31 && month == 12) || (month > 12));
 
     printf("Ban da nhap ngay sinh: %d/%d/%d\n", day, month, year);
-   // getchar();
+    // getchar();
     Sv.birth.ngay = day;
     Sv.birth.thang = month;
     Sv.birth.nam = year;
@@ -236,7 +237,7 @@ void sortSv(sinhvien list[], int l, int r)
             if (strcmp(pivot_middle, upper(mSv1)) > 0)
                 i++;
             if (strcmp(pivot_middle, upper(mSv2)) < 0)
-                j--;    
+                j--;
         }
         if (i <= j)
         {
@@ -274,7 +275,7 @@ void deleteAll(char fileName[])
     fwrite(&n, sizeof(n), 1, sv);
     sumSv = 0;
 }
-//tim sinh vien theo ten
+// tim sinh vien theo ten
 int binarySearchName(sinhvien list[], idmail ID[], int left, int right, char Name[])
 {
     int p;
@@ -298,8 +299,8 @@ int binarySearchName(sinhvien list[], idmail ID[], int left, int right, char Nam
     }
     return -1;
 }
-//tim sinh vien theo msv
-int binarySearchMsv(idmail ID[], int left, int right, long long   idsv)
+// tim sinh vien theo msv
+int binarySearchMsv(idmail ID[], int left, int right, long long idsv)
 {
     int p;
     while (left <= right)
@@ -335,9 +336,10 @@ int inputMsv()
         printf("Moi ban nhap lai: ");
         scanf("%lld", &id);
         getchar();
-        if (id==0) break;
+        if (id == 0)
+            break;
         delSv = id;
-        tmp = binarySearchMsv(ID,0,sumSv,id);
+        tmp = binarySearchMsv(ID, 0, sumSv, id);
         count--;
     }
     return tmp;
@@ -345,60 +347,64 @@ int inputMsv()
 // ham cap ma sinh vien va email
 void initId()
 {
-    //tach chuoi thanh 3 phan 
-    char chuoi1[3]; //lay nien khoa cua nam hoc sinh vien 
+    // tach chuoi thanh 3 phan
+    char chuoi1[3]; // lay nien khoa cua nam hoc sinh vien
     int i;
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < 2; i++)
+    {
         chuoi1[i] = fileName[i];
-    } //nien khoa lay 2 ky tu dau cua chuoi me 
+    } // nien khoa lay 2 ky tu dau cua chuoi me
     chuoi1[i] = '\0';
     int j = 0;
     char chuoi2[10];
-    for (i = 2; i < strlen(fileName);i++) {
-        if (!isdigit(fileName[i])) {
+    for (i = 2; i < strlen(fileName); i++)
+    {
+        if (!isdigit(fileName[i]))
+        {
             chuoi2[j++] = fileName[i];
         }
     }
     chuoi2[j] = '\0';
     char chuoi3[2];
-    chuoi3[0] = fileName[strlen(fileName)-1]; 
+    chuoi3[0] = fileName[strlen(fileName) - 1];
     chuoi3[1] = '\0';
-    //chuoi 2 la cac ky tu the hien nganh dang hoc
+    // chuoi 2 la cac ky tu the hien nganh dang hoc
     char phu[] = ".txt";
     char chuoiphu[10];
-    strcpy(chuoiphu,chuoi2);
-    strcat(chuoiphu,phu);
+    strcpy(chuoiphu, chuoi2);
+    strcat(chuoiphu, phu);
     int k = 0;
-    while (k<strlen(chuoiphu)) {
+    while (k < strlen(chuoiphu))
+    {
         k++;
     }
     chuoiphu[k] = '\0';
     char manganh[3];
     FILE *f;
-    f = fopen(chuoiphu,"r");
-    if (f==NULL) {
+    f = fopen(chuoiphu, "r");
+    if (f == NULL)
+    {
         printf("Khong tim thay file\n");
         exit(1);
     }
-    else {
-        int n; 
-        fscanf(f,"%d",&n);
-        sprintf(manganh,"%d",n);
+    else
+    {
+        int n;
+        fscanf(f, "%d", &n);
+        sprintf(manganh, "%d", n);
         fclose(f);
     }
-    //chuyen n nay thanh chuoi va noi vao chuoi chinh
+    // chuyen n nay thanh chuoi va noi vao chuoi chinh
     char s[10];
     char c[] = "001";
-    strcat(s,manganh);
-    strcat(s,chuoi1); //noi nien khoa vao chuoi
-    strcat(s,chuoi3);
-    strcat(s,c);
-    //T_DT1 den
+    strcat(s, manganh);
+    strcat(s, chuoi1); // noi nien khoa vao chuoi
+    strcat(s, chuoi3);
+    strcat(s, c);
     long long num = atoll(s);
-    //chia if else de cap ma cho sinh vien 
     for (i = 0; i < sumSv; i++)
     {
-       ID[i].id = num+i;
+        ID[i].id = num + i;
     }
 }
 void initEmail()
@@ -413,7 +419,7 @@ void initEmail()
 }
 // ham dinh dang bang sinh vien
 void format()
-{   
+{
 
     int i;
     for (i = 0; i < 169; i++)
@@ -440,7 +446,7 @@ void printSv(sinhvien sv, idmail msv)
     strcpy(fullName, middle);
     strcat(fullName, " ");
     strcat(fullName, name);
-    printf("\n|%11lld\t|%26s\t%s%8d-%2d-%2d\t|%27s\t|%4s           |%6s-%s-%s", msv.id, fullName,"|", sv.birth.ngay, sv.birth.thang, sv.birth.nam, msv.email, sv.sex, sv.OfSv.home, sv.OfSv.street, sv.OfSv.city);
+    printf("\n|%11lld\t|%26s\t%s%8d-%2d-%2d\t|%27s\t|%4s           |%6s-%s-%s", msv.id, fullName, "|", sv.birth.ngay, sv.birth.thang, sv.birth.nam, msv.email, sv.sex, sv.OfSv.home, sv.OfSv.street, sv.OfSv.city);
     printf("|%16s %31s %23s %31s %15s%47s|", "|", "|", "|", "|", "|", " ");
 }
 void scanlist()
@@ -455,15 +461,15 @@ void scanlist()
 }
 void nameFile(char fileName[])
 {
-    do {
+    do
+    {
         fgets(fileName, 100, stdin);
         fileName[strlen(fileName) - 1] = '\0';
-        if (test(fileName)==0) {
+        if (test(fileName) == 0)
+        {
             printf("Lop nhap vao khong hop le!Moi ban nhap lai: ");
         }
-    }
-    while (test(fileName)==0);
-
+    } while (test(fileName) == 0);
 }
 void readFromFile()
 {
@@ -548,7 +554,7 @@ void searchNameSv()
     }
     while (location == -1)
     {
-        char Name[30];
+        // char Name[30];
         printf("Khong tim thay sinh vien trong danh sach!\n");
         printf("Ban co muon tiep tuc tim kiem hay khong?\n");
         printf("1.Yes\n");
@@ -590,8 +596,8 @@ void select1()
 {
     sumSv = 0;
     printf("Nhap ten lop can them sinh vien:");
-    nameFile(fileName); // ham nhap ten file vao chuong trinh
-    readFromFile();     // ham doc tu file
+    nameFile(fileName); 
+    readFromFile();    
     res = sumSv;
     printf("\nTrong danh sach co %d sinh vien!", res);
     printf("So sinh vien can them la: ");
@@ -714,10 +720,10 @@ void select3()
         scanlist();
         printf("\n");
         printf("Nhap msv can xoa: ");
-        sv = inputMsv(); //sv la index cua sinh vien can xoa trong danh sach lop
+        sv = inputMsv(); // sv la index cua sinh vien can xoa trong danh sach lop
         if (sv == -1)
         {
-            printf("Da dung xoa!");
+            printf("Da dung xoa!\n");
             formatHead();
             scanlist();
             break;
@@ -743,7 +749,7 @@ void select3()
                 {
                 case 1:
                     deleteAll(fileName);
-                    
+
                     break;
                 case 2:
                     printf("Nhap ten lop can xoa: ");
@@ -873,7 +879,7 @@ void select6()
         printf("LOI CHUA SAP XEP!!!\n");
 }
 void select7()
-{   
+{
     if (fileName[0] != '\0')
     {
         int option7_1 = choice();
@@ -910,22 +916,23 @@ void select7()
         scanlist();
     }
 }
-void Intro() {
-    printf("\t\t ______________________________________________________________________________________________\n");
-    printf("\t\t|                                                                                              |\n");
-    printf("\t\t|                                 DO AN PBL1: LAP TRINH TINH TOAN                              |\n");
-    printf("\t\t|                                                                                              |\n");
-    printf("\t\t|                       DE TAI: XAY DUNG UNG DUNG QUAN LY DANH SACH SINH VIEN                  |\n");
-    printf("\t\t|                                                                                              |\n");
-    printf("\t\t|                                                                                              |\n");
-    printf("\t\t|                                        Giao vien huong dan: Nguyen Thi Minh Hy               |\n");
-    printf("\t\t|                                                                                              |\n");
-    printf("\t\t|                                                                                              |\n");
-    printf("\t\t|         Sinh vien thuc hien:                                                                 |\n");
-	printf("\t\t|                            Nguyen Huu Nhat Huy(23T_DT1)   - MSV: 102230191                   |\n");
-    printf("\t\t|                            Dang Ngoc Huy(23T_DT1)         - MSV: 102230190                   |\n");
-    printf("\t\t|                                                                                              |\n");
-    printf("\t\t|______________________________________________________________________________________________|\n");
+void Intro()
+{
+    printf("\t\t\t\t ______________________________________________________________________________________________\n");
+    printf("\t\t\t\t|                                                                                              |\n");
+    printf("\t\t\t\t|                                 DO AN PBL1: LAP TRINH TINH TOAN                              |\n");
+    printf("\t\t\t\t|                                                                                              |\n");
+    printf("\t\t\t\t|                       DE TAI: XAY DUNG UNG DUNG QUAN LY DANH SACH SINH VIEN                  |\n");
+    printf("\t\t\t\t|                                                                                              |\n");
+    printf("\t\t\t\t|                                                                                              |\n");
+    printf("\t\t\t\t|                                        Giao vien huong dan: Nguyen Thi Minh Hy               |\n");
+    printf("\t\t\t\t|                                                                                              |\n");
+    printf("\t\t\t\t|                                                                                              |\n");
+    printf("\t\t\t\t|         Sinh vien thuc hien:                                                                 |\n");
+    printf("\t\t\t\t|                            Nguyen Huu Nhat Huy(23T_DT1)   - MSV: 102230191                   |\n");
+    printf("\t\t\t\t|                            Dang Ngoc Huy(23T_DT1)         - MSV: 102230190                   |\n");
+    printf("\t\t\t\t|                                                                                              |\n");
+    printf("\t\t\t\t|______________________________________________________________________________________________|\n");
 }
 void menu()
 {
@@ -972,5 +979,5 @@ void menu()
         default:
             printf("Nhap lai lua chon cua ban!!!\n");
         }
-    } while (chooseMenu!=8);
+    } while (chooseMenu != 8);
 }
